@@ -89,6 +89,14 @@ export function App() {
           <small>All dates are localised to device.</small>
         </p>
       </section>
+      <footer>
+        <small>
+          Data from{" "}
+          <a href="https://www.fifa.com/" target="_blank">
+            FIFA
+          </a>
+        </small>
+      </footer>
     </main>
   );
 }
