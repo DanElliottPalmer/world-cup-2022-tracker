@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { TeamResults } from "./components/TeamResults";
 import { TeamFixtures } from "./components/TeamFixtures";
 import { TrackingTeams } from "./components/TrackingTeams";
@@ -23,7 +23,6 @@ export function App() {
     (teamName: TeamName) => {
       if (trackedTeams.includes(teamName)) return;
       const updatedTrackedTeams = [...trackedTeams, teamName];
-      save({ trackedTeams: updatedTrackedTeams });
       setTrackingTeams(updatedTrackedTeams);
     },
     [trackedTeams]
@@ -35,11 +34,12 @@ export function App() {
       if (teamIndex === -1) return;
       const updatedTrackedTeams = trackedTeams.slice(0);
       updatedTrackedTeams.splice(teamIndex, 1);
-      save({ trackedTeams: updatedTrackedTeams });
       setTrackingTeams(updatedTrackedTeams);
     },
     [trackedTeams]
   );
+
+  useEffect(() => save({ trackedTeams }), [trackedTeams]);
 
   if (loading) return <main>Loading...</main>;
 
