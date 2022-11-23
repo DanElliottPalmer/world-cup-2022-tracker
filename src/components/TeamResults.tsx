@@ -45,6 +45,8 @@ export function TeamResults({
                 <time dateTime={result.date.toUTCString()}>
                   {getDate(result.date)}
                 </time>
+                <br />
+                <small>{result.groupName}</small>
               </td>
               <td className={isHomeWinner ? "is-winner" : ""}>{homeLabel}</td>
               <td className={isAwayWinner ? "is-winner" : ""}>{awayLabel}</td>

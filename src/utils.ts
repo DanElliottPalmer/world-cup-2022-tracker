@@ -10,6 +10,10 @@ export interface RawResultData {
     ShortClubName: string;
   };
   Date: string;
+  GroupName: Array<{
+    Description: string;
+    Locale: string;
+  }>;
   Home: {
     Abbreviation: string;
     Score: number;
@@ -23,7 +27,14 @@ export interface RawResultData {
 export async function fetchAllResults(): Promise<Array<RawResultData>> {
   const result = await fetch(URL_RESULTS);
   const rawData = await result.json();
-  return rawData.Results.filter((rawResults) => rawResults.Away !== null);
+  return rawData.Results.filter(
+    (rawResults: RawResultData): rawResults is RawResultData =>
+      rawResults.Away !== null
+  );
+}
+
+export function getGroupName(resultData: RawResultData): string {
+  return resultData.GroupName?.[0].Description ?? "Unknown Group";
 }
 
 export type TeamAbbreviation = string;
@@ -33,6 +44,7 @@ export interface GameResult {
   awayTeamName: TeamName;
   awayScore: number;
   date: Date;
+  groupName: string;
   homeTeamName: TeamName;
   homeScore: number;
   id: string;
@@ -41,6 +53,7 @@ export interface GameResult {
 export interface GameFixture {
   awayTeamName: TeamName;
   date: Date;
+  groupName: string;
   homeTeamName: TeamName;
   id: string;
 }
@@ -74,6 +87,7 @@ export function processRawGameData(rawGameData: Array<RawResultData>): Teams {
         awayTeamName,
         awayScore: gameData.Away.Score,
         date: utcDate,
+        groupName: getGroupName(gameData),
         homeTeamName,
         homeScore: gameData.Home.Score,
         id: gameData.IdMatch,
@@ -84,6 +98,7 @@ export function processRawGameData(rawGameData: Array<RawResultData>): Teams {
       const fixture: GameFixture = {
         awayTeamName,
         date: utcDate,
+        groupName: getGroupName(gameData),
         homeTeamName,
         id: gameData.IdMatch,
       };

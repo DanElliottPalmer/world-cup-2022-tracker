@@ -36,6 +36,8 @@ export function TeamFixtures({
                 <time dateTime={fixture.date.toUTCString()}>
                   {getDate(fixture.date)}
                 </time>
+                <br />
+                <small>{fixture.groupName}</small>
               </td>
               <td>{homeLabel}</td>
               <td>{awayLabel}</td>
