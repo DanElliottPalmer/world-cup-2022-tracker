@@ -22,7 +22,9 @@ export function TeamResults({
       <tbody>
         {results.map((result) => {
           const isAwayTeamTracked = trackedTeams.includes(result.awayTeamName);
+          const isAwayWinner = result.awayScore > result.homeScore;
           const isHomeTeamTracked = trackedTeams.includes(result.homeTeamName);
+          const isHomeWinner = result.homeScore > result.awayScore;
 
           let awayLabel = (
             <>
@@ -44,8 +46,8 @@ export function TeamResults({
                   {getDate(result.date)}
                 </time>
               </td>
-              <td>{homeLabel}</td>
-              <td>{awayLabel}</td>
+              <td className={isHomeWinner ? "is-winner" : ""}>{homeLabel}</td>
+              <td className={isAwayWinner ? "is-winner" : ""}>{awayLabel}</td>
             </tr>
           );
         })}
