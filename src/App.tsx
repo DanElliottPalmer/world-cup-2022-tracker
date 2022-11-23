@@ -66,7 +66,7 @@ export function App() {
 
   return (
     <main>
-      <h1>World Cup Tracker</h1>
+      <h1>World Cup 2022 Tracker</h1>
       <section>
         <h2>Tracking Teams</h2>
         <TrackingTeams

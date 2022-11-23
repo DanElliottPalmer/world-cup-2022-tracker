@@ -31,7 +31,11 @@ export function TeamFixtures({
 
           return (
             <tr key={fixture.id}>
-              <td>{fixture.date.toUTCString()}</td>
+              <td>
+                <time dateTime={fixture.date.toUTCString()}>
+                  {fixture.date.toUTCString()}
+                </time>
+              </td>
               <td>{homeLabel}</td>
               <td>{awayLabel}</td>
             </tr>

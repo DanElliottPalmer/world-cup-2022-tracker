@@ -26,7 +26,7 @@ export function TeamResults({
 
           let awayLabel = (
             <>
-              {result.awayTeamName} - {result.awayScore}
+              {result.awayScore} - {result.awayTeamName}
             </>
           );
           if (isAwayTeamTracked) awayLabel = <strong>{awayLabel}</strong>;
@@ -39,7 +39,11 @@ export function TeamResults({
 
           return (
             <tr key={result.id}>
-              <td>{result.date.toUTCString()}</td>
+              <td>
+                <time dateTime={result.date.toUTCString()}>
+                  {result.date.toUTCString()}
+                </time>
+              </td>
               <td>{homeLabel}</td>
               <td>{awayLabel}</td>
             </tr>

@@ -35,33 +35,32 @@ export function TrackingTeams({
   );
 
   return (
-    <div>
-      <form onSubmit={_onFormSubmit}>
-        <p>
-          <label>
-            Teams:{" "}
-            <select name="selectTeams">
-              {teamNames.map((teamName) => (
-                <option key={teamName}>{teamName}</option>
-              ))}
-            </select>
-          </label>
-        </p>
-        <p>
-          <button>Track</button>
-        </p>
-      </form>
-      <hr />
-      <ul>
+    <div className="tracking-teams">
+      <ul className="tracking-teams__list">
         {trackedTeams.map((trackedTeam) => (
-          <li key={trackedTeam}>
+          <li className="tracking-teams__list-item" key={trackedTeam}>
             {trackedTeam}{" "}
-            <button data-name={trackedTeam} onClick={_onRemoveClick}>
+            <button
+              className="button"
+              data-name={trackedTeam}
+              onClick={_onRemoveClick}
+            >
               Remove
             </button>
           </li>
         ))}
       </ul>
+      <form className="tracking-teams__form" onSubmit={_onFormSubmit}>
+        <label>
+          Team:{" "}
+          <select className="select" name="selectTeams">
+            {teamNames.map((teamName) => (
+              <option key={teamName}>{teamName}</option>
+            ))}
+          </select>
+        </label>
+        <button className="button">Track</button>
+      </form>
     </div>
   );
 }

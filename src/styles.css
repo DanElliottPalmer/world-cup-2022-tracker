@@ -1,4 +1,100 @@
+:root {
+  --main-color: #455364;
+}
+
 h1 {
-  color: hotpink;
-  font-family: cursive;
+  text-align: center;
+}
+
+h1,
+h2 {
+  margin-block: 0.5em;
+}
+
+main {
+  color: var(--main-color);
+  font-family: sans-serif;
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+section {
+  margin-block: 2.5em;
+}
+
+table {
+  border-collapse: collapse;
+  text-align: center;
+  width: 100%;
+}
+
+th {
+  border-bottom: 1px solid var(--main-color);
+  padding-block: 0 0.5em;
+  width: 25%;
+}
+
+th:nth-child(1) {
+  width: 50%;
+}
+
+td {
+  padding-block: 0.5em;
+  padding-inline: 0.5em;
+}
+
+.button {
+  appearance: none;
+  background: white;
+  border: none;
+  box-shadow: 0 0 0 1px var(--main-color);
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-inline: 1em;
+  padding-block: 0.5em;
+  padding-inline: 1em;
+  transition: box-shadow 0.1s ease-in-out;
+}
+
+.select {
+  border: none;
+  box-shadow: 0 0 0 1px var(--main-color);
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-inline: 0.5em;
+  padding-block: 0.5em;
+  padding-inline: 1em;
+  transition: box-shadow 0.1s ease-in-out;
+}
+
+.button:hover,
+.button:focus,
+.select:hover,
+.select:focus {
+  box-shadow: 0 0 0 3px var(--main-color);
+}
+
+.tracking-teams {
+  margin-block: 1em;
+}
+
+.tracking-teams__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tracking-teams__list-item {
+  margin-block: 1em;
+}
+
+.tracking-teams__list-item::before {
+  content: "⚽️";
+  padding-inline: 0 0.5em;
+}
+
+.tracking-teams__form {
+  border: 1px dotted var(--main-color);
+  padding-block: 1em;
+  padding-inline: 1em;
 }
