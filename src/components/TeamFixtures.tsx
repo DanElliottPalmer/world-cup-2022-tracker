@@ -1,8 +1,8 @@
 import React from "react";
-import { GameResult } from "../utils";
+import type { GameFixture } from "../utils";
 
 interface TeamFixturesProps {
-  fixtures: Array<GameResult>;
+  fixtures: Array<GameFixture>;
 }
 
 export function TeamFixtures({ fixtures = [] }: TeamFixturesProps) {
