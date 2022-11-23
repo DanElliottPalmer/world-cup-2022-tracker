@@ -135,3 +135,18 @@ export function load(): LoadData | undefined {
   if (data === null) return undefined;
   return JSON.parse(data);
 }
+
+export function getUserLocale() {
+  return navigator.language;
+}
+
+export function getDate(date: Date): string {
+  const formatter = Intl.DateTimeFormat(getUserLocale(), {
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    month: "2-digit",
+    year: "2-digit",
+  });
+  return formatter.format(date);
+}

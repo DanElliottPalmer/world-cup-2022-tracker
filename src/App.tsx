@@ -79,10 +79,16 @@ export function App() {
       <section>
         <h2>Results</h2>
         <TeamResults results={results} trackedTeams={trackedTeams} />
+        <p>
+          <small>All dates are localised to device.</small>
+        </p>
       </section>
       <section>
         <h2>Fixtures</h2>
         <TeamFixtures fixtures={fixtures} trackedTeams={trackedTeams} />
+        <p>
+          <small>All dates are localised to device.</small>
+        </p>
       </section>
     </main>
   );

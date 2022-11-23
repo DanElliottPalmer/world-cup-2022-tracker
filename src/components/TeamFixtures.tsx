@@ -1,4 +1,5 @@
 import React from "react";
+import { getDate } from "../utils";
 import type { GameFixture, TeamName } from "../utils";
 
 interface TeamFixturesProps {
@@ -33,7 +34,7 @@ export function TeamFixtures({
             <tr key={fixture.id}>
               <td>
                 <time dateTime={fixture.date.toUTCString()}>
-                  {fixture.date.toUTCString()}
+                  {getDate(fixture.date)}
                 </time>
               </td>
               <td>{homeLabel}</td>

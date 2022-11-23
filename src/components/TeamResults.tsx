@@ -1,5 +1,5 @@
 import React from "react";
-import { GameResult, TeamName } from "../utils";
+import { GameResult, getDate, TeamName } from "../utils";
 
 interface TeamResultsProps {
   results?: Array<GameResult>;
@@ -41,7 +41,7 @@ export function TeamResults({
             <tr key={result.id}>
               <td>
                 <time dateTime={result.date.toUTCString()}>
-                  {result.date.toUTCString()}
+                  {getDate(result.date)}
                 </time>
               </td>
               <td>{homeLabel}</td>
