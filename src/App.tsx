@@ -44,7 +44,6 @@ export function App() {
   if (loading) return <main>Loading...</main>;
 
   const teams = processRawGameData(games);
-  const teamNames = getTeamNames(teams).sort((a, b) => a.localeCompare(b));
 
   const results = unique(
     trackedTeams.flatMap((teamName) => {
@@ -72,7 +71,7 @@ export function App() {
         <TrackingTeams
           onAdd={onTrackingTeamAdd}
           onRemove={onTrackingTeamRemove}
-          teamNames={teamNames}
+          teams={teams}
           trackedTeams={trackedTeams}
         />
       </section>

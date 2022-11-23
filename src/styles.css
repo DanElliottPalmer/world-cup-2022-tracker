@@ -88,9 +88,10 @@ td {
   margin-block: 1em;
 }
 
-.tracking-teams__list-item::before {
-  content: "⚽️";
-  padding-inline: 0 0.5em;
+.tracking-teams__flag {
+  margin-inline: 0 0.5em;
+  vertical-align: middle;
+  width: 25px;
 }
 
 .tracking-teams__form {

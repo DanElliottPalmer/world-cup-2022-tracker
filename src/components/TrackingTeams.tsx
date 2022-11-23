@@ -1,19 +1,21 @@
 import React, { FormEvent, MouseEvent, useCallback } from "react";
-import type { TeamName } from "../utils";
+import { getFlagURL, getTeamNames, Team, TeamName } from "../utils";
 
 interface TrackingTeamsProps {
   onAdd: (teamName: TeamName) => void;
   onRemove: (teamName: TeamName) => void;
-  teamNames: Array<TeamName>;
+  teams: Map<TeamName, Team>;
   trackedTeams: Array<TeamName>;
 }
 
 export function TrackingTeams({
   onAdd,
   onRemove,
-  teamNames,
+  teams,
   trackedTeams = [],
 }: TrackingTeamsProps) {
+  const teamNames = getTeamNames(teams).sort((a, b) => a.localeCompare(b));
+
   const _onFormSubmit = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -37,25 +39,32 @@ export function TrackingTeams({
   return (
     <div className="tracking-teams">
       <ul className="tracking-teams__list">
-        {trackedTeams.map((trackedTeam) => (
-          <li className="tracking-teams__list-item" key={trackedTeam}>
-            {trackedTeam}{" "}
-            <button
-              className="button"
-              data-name={trackedTeam}
-              onClick={_onRemoveClick}
-            >
-              Remove
-            </button>
-          </li>
-        ))}
+        {trackedTeams.map((teamName) => {
+          const teamAbbr = (teams.get(teamName) as Team).abbreviation;
+          const flagURL = getFlagURL(teamAbbr);
+          return (
+            <li className="tracking-teams__list-item" key={teamName}>
+              <img className="tracking-teams__flag" src={flagURL} />
+              {teamName}{" "}
+              <button
+                className="button"
+                data-name={teamName}
+                onClick={_onRemoveClick}
+              >
+                Remove
+              </button>
+            </li>
+          );
+        })}
       </ul>
       <form className="tracking-teams__form" onSubmit={_onFormSubmit}>
         <label>
           Team:{" "}
           <select className="select" name="selectTeams">
             {teamNames.map((teamName) => (
-              <option key={teamName}>{teamName}</option>
+              <option key={teamName} value={teamName}>
+                {teamName}
+              </option>
             ))}
           </select>
         </label>

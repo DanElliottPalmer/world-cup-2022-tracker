@@ -5,11 +5,13 @@ const LOCAL_STORAGE_KEY = "world-cup-data";
 // Only listing data we need
 export interface RawResultData {
   Away: {
+    Abbreviation: string;
     Score: number;
     ShortClubName: string;
   };
   Date: string;
   Home: {
+    Abbreviation: string;
     Score: number;
     ShortClubName: string;
   };
@@ -24,6 +26,7 @@ export async function fetchAllResults(): Promise<Array<RawResultData>> {
   return rawData.Results.filter((rawResults) => rawResults.Away !== null);
 }
 
+export type TeamAbbreviation = string;
 export type TeamName = string;
 
 export interface GameResult {
@@ -43,6 +46,7 @@ export interface GameFixture {
 }
 
 export interface Team {
+  abbreviation: TeamAbbreviation;
   fixtures: Array<GameFixture>;
   name: TeamName;
   results: Array<GameResult>;
@@ -59,11 +63,11 @@ export function processRawGameData(rawGameData: Array<RawResultData>): Teams {
 
     // Away
     const awayTeamName = gameData.Away.ShortClubName;
-    assignTeam(awayTeamName);
+    assignTeam(awayTeamName, gameData.Away.Abbreviation);
 
     // Home
     const homeTeamName = gameData.Home.ShortClubName;
-    assignTeam(homeTeamName);
+    assignTeam(homeTeamName, gameData.Home.Abbreviation);
 
     if (isFinished) {
       const result: GameResult = {
@@ -90,9 +94,10 @@ export function processRawGameData(rawGameData: Array<RawResultData>): Teams {
 
   return teams;
 
-  function assignTeam(teamName: string) {
+  function assignTeam(teamName: string, abbr: string) {
     if (!teams.has(teamName)) {
       teams.set(teamName, {
+        abbreviation: abbr,
         fixtures: [],
         name: teamName,
         results: [],
@@ -149,4 +154,8 @@ export function getDate(date: Date): string {
     year: "2-digit",
   });
   return formatter.format(date);
+}
+
+export function getFlagURL(idAssociation: string): string {
+  return "https://api.fifa.com/api/v3/picture/flags-sq-1/" + idAssociation;
 }
