@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "parcel src/index.html",
-    "build": "parcel build --public-url world-cup-2022-tracker src/index.html"
+    "build": "parcel build --public-url . src/index.html"
   },
   "keywords": [],
   "author": "",
