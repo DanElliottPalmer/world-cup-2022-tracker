@@ -1,18 +1,29 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { TeamResults } from "./components/TeamResults";
 import { TeamFixtures } from "./components/TeamFixtures";
 import { TrackingTeams } from "./components/TrackingTeams";
 import { useFootballGameData } from "./hooks/useFootballGameData";
-import { getTeamNames, processRawGameData, TeamName, unique } from "./utils";
+import {
+  getTeamNames,
+  load,
+  processRawGameData,
+  save,
+  TeamName,
+  unique,
+} from "./utils";
 
 export function App() {
+  const loadedData = useMemo(() => load(), []);
   const { games, loading } = useFootballGameData();
-  const [trackedTeams, setTrackingTeams] = useState<Array<TeamName>>([]);
+  const [trackedTeams, setTrackingTeams] = useState<Array<TeamName>>(
+    loadedData?.trackedTeams ?? []
+  );
 
   const onTrackingTeamSubmit = useCallback(
     (teamName: TeamName) => {
       if (trackedTeams.includes(teamName)) return;
       const updatedTrackedTeams = [...trackedTeams, teamName];
+      save({ trackedTeams: updatedTrackedTeams });
       setTrackingTeams(updatedTrackedTeams);
     },
     [trackedTeams]

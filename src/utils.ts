@@ -1,5 +1,6 @@
 const BASE_URL_RESULT =
   "https://api.fifa.com/api/v3/live/football/17/255711/285063/__GAME_ID__?language=en";
+const LOCAL_STORAGE_KEY = "world-cup-data";
 
 export function getResultURL(gameId: string): string {
   return BASE_URL_RESULT.replace("__GAME_ID__", gameId);
@@ -132,4 +133,22 @@ export function unique<T>(
     ids.add(id);
     return true;
   });
+}
+
+interface SaveData {
+  trackedTeams: Array<TeamName>;
+}
+
+export function save(data: SaveData) {
+  window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+}
+
+interface LoadData {
+  trackedTeams: Array<TeamName>;
+}
+
+export function load(): LoadData | undefined {
+  const data = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+  if (data === null) return undefined;
+  return JSON.parse(data);
 }
