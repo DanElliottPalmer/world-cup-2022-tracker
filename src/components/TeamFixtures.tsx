@@ -1,11 +1,15 @@
 import React from "react";
-import type { GameFixture } from "../utils";
+import type { GameFixture, TeamName } from "../utils";
 
 interface TeamFixturesProps {
-  fixtures: Array<GameFixture>;
+  fixtures?: Array<GameFixture>;
+  trackedTeams?: Array<TeamName>;
 }
 
-export function TeamFixtures({ fixtures = [] }: TeamFixturesProps) {
+export function TeamFixtures({
+  fixtures = [],
+  trackedTeams = [],
+}: TeamFixturesProps) {
   return (
     <table>
       <thead>
@@ -16,12 +20,20 @@ export function TeamFixtures({ fixtures = [] }: TeamFixturesProps) {
         </tr>
       </thead>
       <tbody>
-        {fixtures.map((result) => {
+        {fixtures.map((fixture) => {
+          const isAwayTeamTracked = trackedTeams.includes(fixture.awayTeamName);
+          const isHomeTeamTracked = trackedTeams.includes(fixture.homeTeamName);
+
+          let awayLabel = <>{fixture.awayTeamName}</>;
+          if (isAwayTeamTracked) awayLabel = <strong>{awayLabel}</strong>;
+          let homeLabel = <>{fixture.homeTeamName}</>;
+          if (isHomeTeamTracked) homeLabel = <strong>{homeLabel}</strong>;
+
           return (
-            <tr key={result.id}>
-              <td>{result.date.toUTCString()}</td>
-              <td>{result.homeTeamName}</td>
-              <td>{result.awayTeamName}</td>
+            <tr key={fixture.id}>
+              <td>{fixture.date.toUTCString()}</td>
+              <td>{homeLabel}</td>
+              <td>{awayLabel}</td>
             </tr>
           );
         })}

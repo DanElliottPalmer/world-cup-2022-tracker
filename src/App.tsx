@@ -78,11 +78,11 @@ export function App() {
       </section>
       <section>
         <h2>Results</h2>
-        <TeamResults results={results} />
+        <TeamResults results={results} trackedTeams={trackedTeams} />
       </section>
       <section>
         <h2>Fixtures</h2>
-        <TeamFixtures fixtures={fixtures} />
+        <TeamFixtures fixtures={fixtures} trackedTeams={trackedTeams} />
       </section>
     </main>
   );

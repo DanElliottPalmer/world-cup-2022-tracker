@@ -1,11 +1,15 @@
 import React from "react";
-import { GameResult } from "../utils";
+import { GameResult, TeamName } from "../utils";
 
 interface TeamResultsProps {
-  results: Array<GameResult>;
+  results?: Array<GameResult>;
+  trackedTeams?: Array<TeamName>;
 }
 
-export function TeamResults({ results = [] }: TeamResultsProps) {
+export function TeamResults({
+  results = [],
+  trackedTeams = [],
+}: TeamResultsProps) {
   return (
     <table>
       <thead>
@@ -17,15 +21,27 @@ export function TeamResults({ results = [] }: TeamResultsProps) {
       </thead>
       <tbody>
         {results.map((result) => {
+          const isAwayTeamTracked = trackedTeams.includes(result.awayTeamName);
+          const isHomeTeamTracked = trackedTeams.includes(result.homeTeamName);
+
+          let awayLabel = (
+            <>
+              {result.awayTeamName} - {result.awayScore}
+            </>
+          );
+          if (isAwayTeamTracked) awayLabel = <strong>{awayLabel}</strong>;
+          let homeLabel = (
+            <>
+              {result.homeTeamName} - {result.homeScore}
+            </>
+          );
+          if (isHomeTeamTracked) homeLabel = <strong>{homeLabel}</strong>;
+
           return (
             <tr key={result.id}>
               <td>{result.date.toUTCString()}</td>
-              <td>
-                {result.homeTeamName} - <strong>{result.homeScore}</strong>
-              </td>
-              <td>
-                <strong>{result.awayScore}</strong> - {result.awayTeamName}
-              </td>
+              <td>{homeLabel}</td>
+              <td>{awayLabel}</td>
             </tr>
           );
         })}
