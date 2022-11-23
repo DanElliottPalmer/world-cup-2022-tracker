@@ -1,29 +1,42 @@
-import React, { FormEvent, useCallback } from "react";
+import React, { FormEvent, MouseEvent, useCallback } from "react";
 import type { TeamName } from "../utils";
 
 interface TrackingTeamsProps {
-  onSubmit: (teamName: TeamName) => void;
+  onAdd: (teamName: TeamName) => void;
+  onRemove: (teamName: TeamName) => void;
   teamNames: Array<TeamName>;
   trackedTeams: Array<TeamName>;
 }
 
 export function TrackingTeams({
-  onSubmit,
+  onAdd,
+  onRemove,
   teamNames,
   trackedTeams = [],
 }: TrackingTeamsProps) {
-  const _onSubmit = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (!e.target) return;
-      const formData = new FormData(e.target as HTMLFormElement);
-      onSubmit(formData.get("selectTeams") as string);
+  const _onFormSubmit = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      if (!event.target) return;
+      const formData = new FormData(event.target as HTMLFormElement);
+      onAdd(formData.get("selectTeams") as string);
     },
-    [onSubmit]
+    [onAdd]
   );
+
+  const _onRemoveClick = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      if (!event.target) return;
+      const teamName = (event.target as HTMLButtonElement).dataset
+        .name as string;
+      onRemove(teamName);
+    },
+    [onRemove]
+  );
+
   return (
     <div>
-      <form onSubmit={_onSubmit}>
+      <form onSubmit={_onFormSubmit}>
         <p>
           <label>
             Teams:{" "}
@@ -41,7 +54,12 @@ export function TrackingTeams({
       <hr />
       <ul>
         {trackedTeams.map((trackedTeam) => (
-          <li key={trackedTeam}>{trackedTeam}</li>
+          <li key={trackedTeam}>
+            {trackedTeam}{" "}
+            <button data-name={trackedTeam} onClick={_onRemoveClick}>
+              Remove
+            </button>
+          </li>
         ))}
       </ul>
     </div>

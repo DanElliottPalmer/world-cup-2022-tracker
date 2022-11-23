@@ -19,10 +19,22 @@ export function App() {
     loadedData?.trackedTeams ?? []
   );
 
-  const onTrackingTeamSubmit = useCallback(
+  const onTrackingTeamAdd = useCallback(
     (teamName: TeamName) => {
       if (trackedTeams.includes(teamName)) return;
       const updatedTrackedTeams = [...trackedTeams, teamName];
+      save({ trackedTeams: updatedTrackedTeams });
+      setTrackingTeams(updatedTrackedTeams);
+    },
+    [trackedTeams]
+  );
+
+  const onTrackingTeamRemove = useCallback(
+    (teamName: TeamName) => {
+      const teamIndex = trackedTeams.indexOf(teamName);
+      if (teamIndex === -1) return;
+      const updatedTrackedTeams = trackedTeams.slice(0);
+      updatedTrackedTeams.splice(teamIndex, 1);
       save({ trackedTeams: updatedTrackedTeams });
       setTrackingTeams(updatedTrackedTeams);
     },
@@ -58,7 +70,8 @@ export function App() {
       <section>
         <h2>Tracking Teams</h2>
         <TrackingTeams
-          onSubmit={onTrackingTeamSubmit}
+          onAdd={onTrackingTeamAdd}
+          onRemove={onTrackingTeamRemove}
           teamNames={teamNames}
           trackedTeams={trackedTeams}
         />
