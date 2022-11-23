@@ -1,5 +1,4 @@
 import { useEffect, useReducer } from "react";
-import { GAME_IDS } from "../constants";
 import { fetchAllResults } from "../utils";
 import type { RawResultData } from "../utils";
 
@@ -30,9 +29,8 @@ export function useFootballGameData() {
   useEffect(() => {
     if (!state.loading) return;
     (async function () {
-      // TODO: all the games
-      const games = await fetchAllResults(GAME_IDS.slice(0));
-      dispatch({ results: games, type: "complete" });
+      const allResults = await fetchAllResults();
+      dispatch({ results: allResults.slice(0), type: "complete" });
     })();
   }, []);
 

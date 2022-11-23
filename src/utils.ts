@@ -1,19 +1,15 @@
-const BASE_URL_RESULT =
-  "https://api.fifa.com/api/v3/live/football/17/255711/285063/__GAME_ID__?language=en";
+const URL_RESULTS =
+  "https://api.fifa.com/api/v3/calendar/matches?language=en&idCompetition=17&idSeason=255711&count=1000";
 const LOCAL_STORAGE_KEY = "world-cup-data";
-
-export function getResultURL(gameId: string): string {
-  return BASE_URL_RESULT.replace("__GAME_ID__", gameId);
-}
 
 // Only listing data we need
 export interface RawResultData {
-  AwayTeam: {
+  Away: {
     Score: number;
     ShortClubName: string;
   };
   Date: string;
-  HomeTeam: {
+  Home: {
     Score: number;
     ShortClubName: string;
   };
@@ -22,23 +18,10 @@ export interface RawResultData {
   MatchStatus: 0 | 1;
 }
 
-export async function fetchResult(
-  gameId: string
-): Promise<RawResultData | null> {
-  const resultURL = getResultURL(gameId);
-  const result = await fetch(resultURL);
-  return await result.json();
-}
-
-export async function fetchAllResults(
-  gameIds: Array<string>
-): Promise<Array<RawResultData>> {
-  const results = await Promise.all(
-    gameIds.map((gameId) => fetchResult(gameId))
-  );
-  return results.filter(
-    (resultData): resultData is RawResultData => resultData !== null
-  );
+export async function fetchAllResults(): Promise<Array<RawResultData>> {
+  const result = await fetch(URL_RESULTS);
+  const rawData = await result.json();
+  return rawData.Results.filter((rawResults) => rawResults.Away !== null);
 }
 
 export type TeamName = string;
@@ -75,20 +58,20 @@ export function processRawGameData(rawGameData: Array<RawResultData>): Teams {
     const utcDate = new Date(Date.parse(gameData.Date));
 
     // Away
-    const awayTeamName = gameData.AwayTeam.ShortClubName;
+    const awayTeamName = gameData.Away.ShortClubName;
     assignTeam(awayTeamName);
 
     // Home
-    const homeTeamName = gameData.HomeTeam.ShortClubName;
+    const homeTeamName = gameData.Home.ShortClubName;
     assignTeam(homeTeamName);
 
     if (isFinished) {
       const result: GameResult = {
         awayTeamName,
-        awayScore: gameData.AwayTeam.Score,
+        awayScore: gameData.Away.Score,
         date: utcDate,
         homeTeamName,
-        homeScore: gameData.HomeTeam.Score,
+        homeScore: gameData.Home.Score,
         id: gameData.IdMatch,
       };
       teams.get(homeTeamName)?.results.push(result);
