@@ -22,6 +22,10 @@ export interface RawResultData {
   IdMatch: string;
   // 0 is finished, 1 is to be played
   MatchStatus: 0 | 1;
+  StageName: Array<{
+    Description: string;
+    Locale: string;
+  }>;
 }
 
 export async function fetchAllResults(): Promise<Array<RawResultData>> {
@@ -34,7 +38,13 @@ export async function fetchAllResults(): Promise<Array<RawResultData>> {
 }
 
 export function getGroupName(resultData: RawResultData): string {
-  return resultData.GroupName?.[0].Description ?? "Unknown Group";
+  if (resultData.StageName.length > 0) {
+    return resultData.StageName[0].Description ?? "Unknown Group";
+  }
+  if (resultData.GroupName.length > 0) {
+    return resultData.GroupName[0].Description;
+  }
+  return "Unknown Group";
 }
 
 export type TeamAbbreviation = string;
