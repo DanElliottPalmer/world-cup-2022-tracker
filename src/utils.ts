@@ -1,5 +1,6 @@
-const URL_RESULTS =
-  "https://api.fifa.com/api/v3/calendar/matches?language=en&idCompetition=17&idSeason=255711&count=1000";
+// const URL_RESULTS =
+// "https://api.fifa.com/api/v3/calendar/matches?language=en&idCompetition=17&idSeason=255711&count=1000";
+import finalData from "./final.json";
 const LOCAL_STORAGE_KEY = "world-cup-data";
 
 // Only listing data we need
@@ -29,8 +30,9 @@ export interface RawResultData {
 }
 
 export async function fetchAllResults(): Promise<Array<RawResultData>> {
-  const result = await fetch(URL_RESULTS);
-  const rawData = await result.json();
+  // const result = await fetch(URL_RESULTS);
+  // const rawData = await result.json();
+  const rawData = finalData as { Results: Array<RawResultData> };
   return rawData.Results.filter(
     (rawResults: RawResultData): rawResults is RawResultData =>
       rawResults.Away !== null
