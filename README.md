@@ -1,4 +1,4 @@
-# world-cup-2022-tracker
+# world-cup-2022-tracker - [link](https://danelliottpalmer.github.io/world-cup-2022-tracker/)
 
 i wanted something to track my winning teams
 
